@@ -7,10 +7,67 @@ import java.util.concurrent.*;
 import java.util.regex.*;
 
 
+class Heap {
+    Queue<Integer> low = new PriorityQueue<Integer>(Comparator.reverseOrder());
+    Queue<Integer> high = new PriorityQueue<Integer>(); 
+    
+    public void add(int number) {
+        if(low.size()<=high.size()) {
+            low.add(number);
+        } else {
+            high.add(number);
+        }
+        balance();
+        
+    }
+    
+    private void balance() {
+        while (!low.isEmpty() && !high.isEmpty() && low.peek()>high.peek()) {
+            Integer lowHead = low.poll();
+            Integer highHead = high.poll();
+            low.add(highHead);
+            high.add(lowHead);
+        }
+    }
+     
+    public double median() {
+        if (low.isEmpty() && high.isEmpty()) {
+            throw new IllegalStateException("Heap is empty");
+        }
+        
+        double m = 0F; 
+        
+        if (low.size()>high.size()) {
+            m = (double) low.peek();
+        } else {
+            m = (low.peek()+high.peek())/2.0;
+        }
+        
+        return m;
+    } 
+    
+}
+
+
+// tries tree
+class Node {
+    Map<Character, Node> children;
+    boolean isComplete;
+    
+    public void add(String name) {
+        
+    }
+    
+    public int find(String search) {
+        int finds = 0;
+        
+        
+        return finds;
+    }
+    
+}
 
 public class Solution {
-
-    private static final Scanner scanner = new Scanner(System.in);
 
     private int[] getFreq(String s) {
         int[] freq = new int[26];
@@ -175,31 +232,34 @@ public class Solution {
             return el;
         }
         
-        public void print () {
-            Stack<T> tmpStack = stackNewestOnTop.
-            
-        }
     }
     
-    public static void main(String[] args) {
-        MyQueue<Integer> queue = new MyQueue<Integer>();
-        
-        Scanner scan = new Scanner(System.in);
-        int n = scan.nextInt();
-        
-        for (int i = 0; i < n; i++) {
-            int operation = scan.nextInt();
-            if (operation == 1) { // enqueue
-                queue.enqueue(scan.nextInt());
-                queue.print();
-            } else if (operation == 2) { // dequeue
-                queue.dequeue();
-                queue.print();
-            } else if (operation == 3) { // print/peek
-                System.out.println(queue.peek());
-            }
-        }
-        scan.close();
+ 
 
+
+    
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        Contact book = new Contact();
+        
+        for (int nItr = 0; nItr < n; nItr++) {
+            String[] opContact = scanner.nextLine().split(" ");
+
+            String op = opContact[0];
+
+            String contact = opContact[1];
+            if (op=="add") {
+                book.add(book,contact);
+            }
+            if (op=="find") {
+                System.out.println(book.find(book,contact));
+            }
+         }
+
+        scanner.close();
     }
 }
